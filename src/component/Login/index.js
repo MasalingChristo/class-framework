@@ -1,38 +1,53 @@
 import React, {useState, useEffect} from "react";
 import NavBar from '../molecules'
+import firebase from '../../config/Firebase'
 
 const Login =()=> {
 
     
-    const[username, setusername] = useState("")
-    const[password, setpassword] = useState("")
+    const[email, setEmail] = useState("")
+    const[password, setPassword] = useState("")
 
     const handleSubmit =()=>{
         const data ={
-            username: username,
+            email: email,
             password: password,
         };
-        console.log(data)
+        //console.log(data)
     }
+    firebase.auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        console.log(userCredential)
+
+   
+  })
+  .catch((error) => {
+
+    console.log('error')
+    
+  });
   
 
     return(
         <div className="container">
             <NavBar/>
             <h3>Login</h3>
-            <p>User Name</p>
-            <input placeholder= "Masukkan User Name Anda" 
-            value={username} 
-            onChange ={(e)=>setusername(e.target.value)}
+            <p>Email</p>
+            <input placeholder= "Masukkan Email Anda" 
+            value={email} 
+            onChange ={(e)=>setEmail(e.target.value)}
             />
-            <p>Pasword</p>
+            <p>Password</p>
             <input placeholder="Masukkan Password Anda"
             type="password"//membuat password menjadi tidak terbaca
             value={password}
-            onChange ={(e)=>setpassword(e.target.value)}
+            onChange ={(e)=>setPassword(e.target.value)}
             />
             <br></br> 
-            <button type="button"onClick={handleSubmit} className="btn btn-primary">Submit
+            <br/>
+            <button type="button"onClick={handleSubmit} 
+            className="btn btn-primary">Submit
             </button> 
         </div>
 
